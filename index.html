@@ -3,878 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZN Store | Minimal Haircare</title>
+    <title>ZN | Premium Haircare Experience</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f5f5f7;
-            --surface: #ffffff;
-            --surface-soft: #fbfbfd;
-            --text: #1d1d1f;
-            --text-secondary: #6e6e73;
-            --divider: #d2d2d7;
-            --accent: #0071e3;
-            --accent-hover: #0062c4;
-            --radius-lg: 28px;
-            --radius-md: 20px;
-            --radius-sm: 14px;
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.06);
-            --shadow-card: 0 6px 18px rgba(0, 0, 0, 0.05);
-            --transition: 260ms ease;
+            --milk: #FDFBF7;
+            --warm-white: #FFFFFF;
+            --beige: #F5F1E9;
+            --champagne: #EBE4D8;
+            --sand: #D9C5B2;
+            --gold: #C5A059;
+            --graphite: #2D2D2D;
+            --transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* Общие стили и Скролл */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--milk); color: var(--graphite); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 400; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
+        
+        /* Анимация появления */
+        .reveal { opacity: 0; transform: translateY(40px); transition: var(--transition); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
-        html {
-            scroll-behavior: smooth;
+        /* Навигация */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 25px 0;
+            background: rgba(253, 251, 247, 0.8); backdrop-filter: blur(20px);
+            z-index: 1000; border-bottom: 1px solid rgba(0,0,0,0.03);
         }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: inline-flex; align-items: center; min-width: 88px; }
+        .logo img { height: 44px; width: auto; display: block; transform: scale(2); transform-origin: left center; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; color: var(--gold); }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif;
-            background: radial-gradient(circle at 20% 0%, #ffffff, var(--bg));
-            color: var(--text);
-            line-height: 1.45;
-            overflow-x: hidden;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .container {
-            max-width: 1160px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .section {
-            padding: 96px 0;
-        }
-
-        .section-heading {
-            font-size: clamp(2rem, 3vw, 3rem);
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
-
-        .section-subheading {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            max-width: 720px;
-            margin-bottom: 42px;
-        }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(24px);
-            transition: opacity 600ms ease, transform 600ms ease;
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        :focus-visible {
-            outline: 3px solid rgba(0, 113, 227, 0.35);
-            outline-offset: 2px;
-            border-radius: 8px;
-        }
-
-        .top-nav {
-            position: fixed;
-            inset: 0 0 auto;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(210, 210, 215, 0.7);
-            background: rgba(245, 245, 247, 0.78);
-            backdrop-filter: saturate(180%) blur(18px);
-        }
-
-        .nav-content {
-            min-height: 64px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            letter-spacing: 0.22em;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 22px;
-            color: var(--text-secondary);
-            font-size: 0.93rem;
-        }
-
-        .nav-links a {
-            transition: color var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--text);
-        }
-
-        .cart-icon {
-            position: relative;
-            width: 42px;
-            height: 42px;
-            border: 1px solid var(--divider);
-            border-radius: 999px;
-            background: var(--surface);
-            display: grid;
-            place-items: center;
-            cursor: pointer;
-            transition: all var(--transition);
-        }
-
-        .cart-icon:hover {
-            border-color: #b8b8bc;
-            box-shadow: var(--shadow-card);
-        }
-
+        /* Корзина и иконки */
+        .nav-actions { display: flex; align-items: center; gap: 25px; }
+        .cart-icon { position: relative; cursor: pointer; transition: 0.3s; }
+        .cart-icon:hover { color: var(--gold); }
         .cart-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            position: absolute; top: -8px; right: -10px;
+            background: var(--gold); color: white; font-size: 10px;
+            width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-family: sans-serif;
         }
 
+        /* Hero Section */
         .hero {
-            min-height: 96vh;
-            padding: 116px 0 70px;
-            display: grid;
-            align-items: center;
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(245, 245, 247, 0.88)),
-                url('https://images.unsplash.com/photo-1559599101-f09722fb4948?auto=format&fit=crop&q=80&w=2000') center/cover;
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            text-align: center; color: var(--graphite);
+            background: linear-gradient(rgba(253, 251, 247, 0.45), rgba(253, 251, 247, 0.45)), 
+                        url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&q=80&w=2000') center/cover;
         }
+        .hero-content h1 { font-size: clamp(45px, 10vw, 85px); line-height: 1.1; margin-bottom: 25px; }
+        .hero-content p { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 40px; opacity: 0.8; }
 
-        .hero-panel {
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-soft);
-            padding: clamp(26px, 5vw, 52px);
-        }
-
-        .eyebrow {
-            font-size: 0.82rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--text-secondary);
-            margin-bottom: 14px;
-        }
-
-        .hero-title {
-            font-size: clamp(2.2rem, 5vw, 4.6rem);
-            line-height: 1.04;
-            letter-spacing: -0.03em;
-            margin-bottom: 18px;
-        }
-
-        .hero-description {
-            font-size: 1.08rem;
-            color: var(--text-secondary);
-            max-width: 560px;
-            margin-bottom: 30px;
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
+        /* Кнопки */
         .btn {
-            border: none;
-            border-radius: 999px;
-            padding: 12px 22px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background var(--transition), transform var(--transition), color var(--transition), border var(--transition);
+            display: inline-block; padding: 20px 45px; background: var(--graphite);
+            color: white; font-size: 11px; text-transform: uppercase; letter-spacing: 3px;
+            border: 1px solid var(--graphite); cursor: pointer; transition: 0.4s;
         }
+        .btn:hover { background: transparent; color: var(--graphite); }
+        .btn-gold { background: var(--gold); border-color: var(--gold); }
+        .btn-gold:hover { background: var(--graphite); border-color: var(--graphite); color: white; }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
+        /* О бренде */
+        .about-section { display: grid; grid-template-columns: 1fr; gap: 0; align-items: center; justify-items: center; padding: 20px 0 120px; text-align: center; }
+        .about-img { display: none; }
+        .about-text { text-align: center; max-width: 860px; margin: 0 auto; }
+        .about-text h2 { font-size: 48px; margin-bottom: 35px; line-height: 1.2; }
+        .about-text p { font-size: 17px; color: #666; margin-bottom: 25px; font-weight: 300; }
 
-        .btn-primary {
-            background: var(--accent);
-            color: #fff;
-        }
+        /* Каталог */
+        .catalog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 60px; }
+        .product-card { background: white; padding: 40px 30px; text-align: center; transition: 0.4s; position: relative; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.03); }
+        .product-card img { width: 100%; height: 350px; object-fit: cover; background: var(--beige); margin-bottom: 30px; }
+        .product-card h3 { font-size: 22px; margin-bottom: 10px; }
+        .product-tag { font-size: 11px; text-transform: uppercase; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px; display: block; }
+        .product-price { font-size: 18px; margin: 20px 0; font-weight: 500; }
+        .product-meta { font-size: 12px; opacity: 0.5; margin-bottom: 25px; }
 
-        .btn-primary:hover {
-            background: var(--accent-hover);
-        }
+        /* Преимущества */
+        .adv-section { background: var(--beige); padding: 120px 0; }
+        .adv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px; }
+        .adv-item h4 { font-size: 24px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .adv-item h4::after { content: ''; height: 1px; width: 40px; background: var(--gold); }
 
-        .btn-secondary {
-            background: var(--surface);
-            border: 1px solid var(--divider);
-            color: var(--text);
-        }
-
-        .btn-secondary:hover {
-            background: #f0f0f2;
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 30px;
-            align-items: stretch;
-        }
-
-        .about-media {
-            border-radius: var(--radius-lg);
-            min-height: 420px;
-            background: url('https://images.unsplash.com/photo-1600607687940-47a0f9259d4b?auto=format&fit=crop&q=80&w=1300') center/cover;
-            box-shadow: var(--shadow-card);
-        }
-
-        .about-content {
-            background: var(--surface);
-            border: 1px solid #ececef;
-            border-radius: var(--radius-lg);
-            padding: clamp(24px, 4vw, 40px);
-            box-shadow: var(--shadow-card);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 16px;
-        }
-
-        .about-content p {
-            color: var(--text-secondary);
-        }
-
-        .catalog-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .product-card {
-            background: var(--surface);
-            border: 1px solid #ececef;
-            border-radius: var(--radius-md);
-            padding: 16px;
-            box-shadow: var(--shadow-card);
-            transition: transform var(--transition), box-shadow var(--transition);
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-soft);
-        }
-
-        .product-image {
-            width: 100%;
-            aspect-ratio: 4 / 5;
-            object-fit: cover;
-            border-radius: var(--radius-sm);
-            background: #f0f0f2;
-        }
-
-        .product-tag {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.09em;
-            color: var(--text-secondary);
-        }
-
-        .product-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .product-meta {
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-            margin-bottom: 4px;
-        }
-
-        .product-footer {
-            margin-top: auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .product-price {
-            font-size: 1.05rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
-        .adv-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .adv-card {
-            padding: 24px;
-            border-radius: var(--radius-md);
-            background: var(--surface-soft);
-            border: 1px solid #ececef;
-        }
-
-        .adv-card h3 {
-            font-size: 1.18rem;
-            margin-bottom: 10px;
-            letter-spacing: -0.01em;
-        }
-
-        .adv-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .faq-wrap {
-            background: var(--surface);
-            border: 1px solid #ececef;
-            border-radius: var(--radius-lg);
-            padding: 8px 22px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #efeff1;
-            padding: 20px 0;
-        }
-
-        .faq-item:last-child {
-            border-bottom: none;
-        }
-
-        .faq-item summary {
-            list-style: none;
-            cursor: pointer;
-            font-size: 1.02rem;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-        }
-
-        .faq-item summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .faq-item p {
-            color: var(--text-secondary);
-            margin-top: 10px;
-            max-width: 780px;
-        }
-
-        .contact-card {
-            max-width: 760px;
-            margin: 0 auto;
-            background: var(--surface);
-            border-radius: var(--radius-lg);
-            border: 1px solid #ececef;
-            box-shadow: var(--shadow-soft);
-            padding: clamp(24px, 4vw, 44px);
-        }
-
-        .contact-card h2 {
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            letter-spacing: -0.02em;
-        }
-
-        .contact-card p {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 26px;
-        }
-
-        .input-group {
-            margin-bottom: 16px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-        }
-
-        .input-group input,
-        .input-group textarea {
-            width: 100%;
-            border: 1px solid var(--divider);
-            border-radius: 12px;
-            background: var(--surface-soft);
-            font: inherit;
-            color: var(--text);
-            padding: 12px 14px;
-            transition: border-color var(--transition), background var(--transition);
-        }
-
-        .input-group input:focus,
-        .input-group textarea:focus {
-            border-color: var(--accent);
-            background: #fff;
-            outline: none;
-        }
-
-        .form-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-        }
-
-        footer {
-            margin-top: 86px;
-            border-top: 1px solid #e5e5e8;
-            padding: 34px 0 28px;
-        }
-
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            flex-wrap: wrap;
-        }
-
-        .cart-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity var(--transition);
-            z-index: 1490;
-        }
-
-        .cart-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        /* Корзина Sidebar */
         .cart-drawer {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: min(430px, 100%);
-            height: 100%;
-            background: var(--surface);
-            border-left: 1px solid #ececef;
-            box-shadow: -18px 0 50px rgba(0, 0, 0, 0.08);
-            transform: translateX(100%);
-            transition: transform var(--transition);
-            z-index: 1500;
-            display: flex;
-            flex-direction: column;
-            padding: 26px 22px;
+            position: fixed; top: 0; right: -100%; width: 450px; height: 100%;
+            background: white; z-index: 2000; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 50px; display: flex; flex-direction: column;
         }
-
-        .cart-drawer.active {
-            transform: translateX(0);
-        }
-
-        .cart-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .cart-header h3 {
-            font-size: 1.4rem;
-            letter-spacing: -0.02em;
-        }
-
-        .close-cart {
-            border: 1px solid var(--divider);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: var(--surface-soft);
-            color: var(--text-secondary);
-            font-size: 1.4rem;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        #cartItems {
-            flex: 1;
-            overflow-y: auto;
-            padding: 8px 0;
-        }
-
-        .empty-cart {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-top: 60px;
-        }
+        .cart-drawer.active { right: 0; }
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); z-index: 1500; display: none; }
+        .cart-overlay.active { display: block; }
 
         .cart-item {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            gap: 10px;
-            border: 1px solid #efeff1;
-            border-radius: 12px;
-            padding: 10px 12px;
-            margin-bottom: 10px;
-            background: var(--surface-soft);
+            justify-content: space-between;
+            gap: 14px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--beige);
         }
-
+        .cart-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+        .cart-item img {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            background: var(--beige);
+        }
         .cart-item-name {
-            font-size: 0.92rem;
+            font-size: 13px;
+            line-height: 1.35;
         }
-
-        .cart-item-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .cart-item-right {
+            font-size: 14px;
             white-space: nowrap;
-            font-size: 0.92rem;
-            color: var(--text-secondary);
         }
-
-        .remove-item {
-            background: transparent;
+        .cart-item-remove {
+            background: none;
             border: none;
-            color: var(--accent);
+            color: var(--gold);
+            margin-left: 10px;
             cursor: pointer;
-            font-size: 1rem;
-            padding: 0;
+            font-size: 18px;
+            line-height: 1;
         }
 
-        .cart-summary {
-            border-top: 1px solid #ececef;
-            margin-top: 12px;
-            padding-top: 16px;
-        }
-
-        .cart-total {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 14px;
-            font-weight: 600;
-        }
-
+        /* Тост уведомление */
         #toast {
-            position: fixed;
-            left: 50%;
-            bottom: 24px;
-            transform: translate(-50%, 16px);
-            opacity: 0;
-            background: #1d1d1f;
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 999px;
-            font-size: 0.9rem;
-            transition: all var(--transition);
-            z-index: 1600;
-            pointer-events: none;
+            position: fixed; bottom: 40px; right: 40px; background: var(--graphite); color: white;
+            padding: 20px 40px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase;
+            z-index: 3000; opacity: 0; transition: 0.4s; transform: translateX(20px);
         }
+        #toast.show { opacity: 1; transform: translateX(0); }
 
-        #toast.show {
-            transform: translate(-50%, 0);
-            opacity: 1;
-        }
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid var(--champagne); padding: 30px 0; cursor: pointer; }
+        .faq-item summary { list-style: none; display: flex; justify-content: space-between; align-items: center; font-family: 'Playfair Display'; font-size: 20px; }
+        .faq-item summary::-webkit-details-marker { display: none; }
+
+        /* Контакты */
+        .contact-form-box { background: white; padding: 80px; max-width: 800px; margin: -100px auto 0; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
+        .input-group { margin-bottom: 30px; }
+        .input-group label { display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 10px; opacity: 0.6; }
+        .input-group input, .input-group textarea { width: 100%; border: none; border-bottom: 1px solid var(--champagne); padding: 15px 0; outline: none; font-family: inherit; font-size: 15px; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--gold); }
+
+        /* Footer */
+        footer { background: var(--graphite); color: #999; padding: 100px 0 50px; font-size: 13px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 50px; margin-bottom: 80px; }
+        .footer-logo { margin-bottom: 30px; }
+        .footer-logo img { height: 144px; width: auto; display: block; }
+        footer h5 { color: white; font-family: 'Montserrat'; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
 
         @media (max-width: 1024px) {
-            .catalog-grid,
-            .adv-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-media {
-                min-height: 360px;
-            }
+            .catalog-grid, .adv-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-section { grid-template-columns: 1fr; }
+            .cart-drawer { width: 100%; }
         }
-
-        @media (max-width: 760px) {
-            .section {
-                padding: 74px 0;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                padding-top: 90px;
-            }
-
-            .catalog-grid,
-            .adv-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .product-footer {
-                align-items: stretch;
-                flex-direction: column;
-            }
-
-            .product-footer .btn {
-                width: 100%;
-            }
+        @media (max-width: 768px) {
+            .catalog-grid, .adv-grid, .footer-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .contact-form-box { padding: 40px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="cart-overlay" id="overlay"></div>
-    <div id="toast">Готово</div>
 
-    <aside class="cart-drawer" id="cartDrawer" aria-label="Корзина">
-        <div class="cart-header">
-            <h3>Корзина</h3>
-            <button class="close-cart" id="closeCart" aria-label="Закрыть корзину">×</button>
+    <div class="cart-overlay" id="overlay"></div>
+    <div id="toast">Продукт добавлен в коллекцию</div>
+
+    <div class="cart-drawer" id="cartDrawer">
+        <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 50px;">
+            <h3 style="font-size: 28px;">Ваш выбор</h3>
+            <span id="closeCart" style="cursor:pointer; font-size: 30px;">&times;</span>
         </div>
-        <div id="cartItems">
-            <p class="empty-cart">Здесь пока пусто</p>
+        <div id="cartItems" style="flex-grow: 1; overflow-y: auto;">
+            <p style="text-align: center; opacity: 0.5; margin-top: 100px;">Здесь пока пусто</p>
         </div>
-        <div class="cart-summary">
-            <div class="cart-total">
-                <span>Итого</span>
+        <div style="border-top: 1px solid var(--beige); padding-top: 30px;">
+            <div style="display:flex; justify-content: space-between; font-size: 20px; margin-bottom: 30px;">
+                <span>Итого:</span>
                 <span id="totalSum">0 ₽</span>
             </div>
-            <button class="btn btn-primary" id="checkoutBtn" style="width: 100%;">Оформить заказ</button>
+            <button class="btn btn-gold" style="width: 100%;">Оформить заказ</button>
         </div>
-    </aside>
+    </div>
 
-    <header class="top-nav">
+    <nav>
         <div class="container nav-content">
-            <a href="#" class="logo">ZN</a>
-            <nav class="nav-links" aria-label="Основная навигация">
+            <div class="nav-links">
                 <a href="#about">Философия</a>
                 <a href="#catalog">Коллекция</a>
                 <a href="#advantages">Преимущества</a>
                 <a href="#faq">FAQ</a>
                 <a href="#contact">Контакты</a>
-            </nav>
-            <button class="cart-icon" id="openCart" aria-label="Открыть корзину">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/>
-                    <path d="M3 6h18M16 10a4 4 0 0 1-8 0"/>
-                </svg>
-                <span class="cart-count" id="cartCount">0</span>
-            </button>
-        </div>
-    </header>
-
-    <main id="main-content">
-        <section class="hero">
-            <div class="container reveal">
-                <div class="hero-panel">
-                    <p class="eyebrow">Clean science haircare</p>
-                    <h1 class="hero-title">Лаконичный уход. Видимый результат.</h1>
-                    <p class="hero-description">ZN — минималистичный магазин с фокусом на важном: понятная коллекция, быстрая покупка и продуманный клиентский опыт.</p>
-                    <div class="hero-actions">
-                        <a href="#catalog" class="btn btn-primary">Смотреть коллекцию</a>
-                        <a href="#about" class="btn btn-secondary">Узнать о бренде</a>
-                    </div>
+            </div>
+            <div class="nav-actions">
+                <div class="cart-icon" id="openCart">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg>
+                    <div class="cart-count" id="cartCount">0</div>
                 </div>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <section id="about" class="section container">
-            <div class="about-grid">
-                <div class="about-media reveal"></div>
-                <article class="about-content reveal">
-                    <h2 class="section-heading">Как если бы магазин сделал Apple</h2>
-                    <p>Мы упростили структуру, убрали визуальный шум и усилили контраст важного: продукта, цены и основного действия.</p>
-                    <p>Каждый экран работает на удобство: аккуратная типографика, ровные отступы, мягкие карточки и единая система кнопок.</p>
-                    <div>
-                        <a href="#catalog" class="btn btn-secondary">Перейти к подборке</a>
-                    </div>
-                </article>
+    <section class="hero">
+        <div class="hero-content reveal">
+            <h1>Красота в<br>каждой детали</h1>
+            <a href="#catalog" class="btn">Исследовать коллекцию</a>
+        </div>
+    </section>
+
+    <section id="about" class="container">
+        <div class="about-section">
+            <div class="about-text">
+                <h2>Мы создаем не уход,<br>а ритуал самопознания</h2>
+                <p>ZN — это манифест осознанного отношения к себе. В нашей собственной лаборатории мы отказались от шаблонных решений в пользу формул, которые работают на клеточном уровне.</p>
+                <p>Каждый флакон — это результат синергии редких природных экстрактов и инновационных пептидных комплексов. Мы верим, что волосы заслуживают того же внимания, что и кожа лица.</p>
+                <a href="#catalog" class="btn" style="background: transparent; color: var(--graphite); margin-top: 20px;">Наш подход</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="catalog" class="section container">
-            <h2 class="section-heading reveal">Коллекция ZN</h2>
-            <p class="section-subheading reveal">Быстрый выбор без лишних шагов. Добавляйте в корзину в один клик и сразу видьте итоговую сумму.</p>
-            <div class="catalog-grid">
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1585232356846-530232c3f13e?auto=format&fit=crop&q=80&w=500" alt="Шампунь Hydration">
-                    <span class="product-tag">Увлажнение</span>
-                    <h3 class="product-title">Шампунь Hydration</h3>
-                    <p class="product-meta">250 мл · интенсивный блеск</p>
-                    <div class="product-footer">
-                        <div class="product-price">2 400 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Шампунь Hydration" data-price="2400">В корзину</button>
-                    </div>
-                </article>
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?auto=format&fit=crop&q=80&w=500" alt="Шампунь Repair">
-                    <span class="product-tag">Восстановление</span>
-                    <h3 class="product-title">Шампунь Repair</h3>
-                    <p class="product-meta">250 мл · реконструкция</p>
-                    <div class="product-footer">
-                        <div class="product-price">2 600 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Шампунь Repair" data-price="2600">В корзину</button>
-                    </div>
-                </article>
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&q=80&w=500" alt="Шампунь Volume">
-                    <span class="product-tag">Объём</span>
-                    <h3 class="product-title">Шампунь Volume</h3>
-                    <p class="product-meta">250 мл · уплотнение волос</p>
-                    <div class="product-footer">
-                        <div class="product-price">2 300 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Шампунь Volume" data-price="2300">В корзину</button>
-                    </div>
-                </article>
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1626784215021-2e39ccf971cd?auto=format&fit=crop&q=80&w=500" alt="Маска Intense">
-                    <span class="product-tag">Интенсивный уход</span>
-                    <h3 class="product-title">Маска Intense</h3>
-                    <p class="product-meta">200 мл · глубокое питание</p>
-                    <div class="product-footer">
-                        <div class="product-price">3 100 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Маска Intense" data-price="3100">В корзину</button>
-                    </div>
-                </article>
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1594465919760-441fe5908ab0?auto=format&fit=crop&q=80&w=500" alt="Бальзам Hydration">
-                    <span class="product-tag">Ежедневный уход</span>
-                    <h3 class="product-title">Бальзам Hydration</h3>
-                    <p class="product-meta">200 мл · лёгкое расчесывание</p>
-                    <div class="product-footer">
-                        <div class="product-price">2 100 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Бальзам Hydration" data-price="2100">В корзину</button>
-                    </div>
-                </article>
-                <article class="product-card reveal">
-                    <img class="product-image" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&q=80&w=500" alt="Бальзам Repair">
-                    <span class="product-tag">Защита</span>
-                    <h3 class="product-title">Бальзам Repair</h3>
-                    <p class="product-meta">200 мл · защита длины</p>
-                    <div class="product-footer">
-                        <div class="product-price">2 200 ₽</div>
-                        <button class="btn btn-primary btn-buy" data-name="Бальзам Repair" data-price="2200">В корзину</button>
-                    </div>
-                </article>
+    <section id="catalog" class="section-padding container">
+        <h2 style="text-align: center; font-size: 44px; margin-bottom: 80px;" class="reveal">Золотой стандарт ZN</h2>
+        <div class="catalog-grid">
+            <div class="product-card reveal">
+                <span class="product-tag">Увлажнение</span>
+                <img src="ChatGPT Image 15 мар. 2026 г., 20_17_57.png" alt="Шампунь Hydration">
+                <h3>Шампунь Hydration</h3>
+                <p class="product-meta">Объем: 250 мл | Интенсивный блеск</p>
+                <div class="product-price">2 400 ₽</div>
+                <button class="btn btn-buy" data-name="Шампунь Hydration" data-price="2400">В корзину</button>
             </div>
-        </section>
+            <div class="product-card reveal">
+                <span class="product-tag">SOS-Уход</span>
+                <img src="ChatGPT Image 15 мар. 2026 г., 20_20_43.png" alt="Маска Intense">
+                <h3>Маска Intense</h3>
+                <p class="product-meta">Объем: 200 мл | Глубокое питание</p>
+                <div class="product-price">3 100 ₽</div>
+                <button class="btn btn-buy" data-name="Маска Intense" data-price="3100">В корзину</button>
+            </div>
+            <div class="product-card reveal">
+                <span class="product-tag">Уход</span>
+                <img src="ChatGPT Image 15 мар. 2026 г., 20_20_08.png" alt="Бальзам Hydration">
+                <h3>Бальзам Hydration</h3>
+                <p class="product-meta">Объем: 200 мл | Легкое расчесывание</p>
+                <div class="product-price">2 100 ₽</div>
+                <button class="btn btn-buy" data-name="Бальзам Hydration" data-price="2100">В корзину</button>
+            </div>
+            <div class="product-card reveal">
+                <span class="product-tag">Набор</span>
+                <img src="ChatGPT Image 15 мар. 2026 г., 20_19_08.png" alt="Набор: Маска + Бальзам">
+                <h3>Набор: Маска + Бальзам</h3>
+                <p class="product-meta">Комплексный уход | Питание и мягкость</p>
+                <div class="product-price">4 900 ₽</div>
+                <button class="btn btn-buy" data-name="Набор: Маска + Бальзам" data-price="4900">В корзину</button>
+            </div>
+            <div class="product-card reveal">
+                <span class="product-tag">Премиум набор</span>
+                <img src="Zarif saç bakım ürünleri seti.png" alt="Набор: Маска + Шампунь + Бальзам">
+                <h3>Набор: Маска + Шампунь + Бальзам</h3>
+                <p class="product-meta">Полный ритуал ухода | 3 продукта</p>
+                <div class="product-price">6 900 ₽</div>
+                <button class="btn btn-buy" data-name="Набор: Маска + Шампунь + Бальзам" data-price="6900">В корзину</button>
+            </div>
+        </div>
+    </section>
 
-        <section id="advantages" class="section container">
-            <h2 class="section-heading reveal">Почему это удобно</h2>
-            <p class="section-subheading reveal">Интерфейс ориентирован на скорость: меньше отвлечений, проще принять решение, быстрее оформить заказ.</p>
+    <section id="advantages" class="adv-section">
+        <div class="container">
+            <h2 style="font-size: 40px; margin-bottom: 70px;" class="reveal">Почему ZN — это выбор лучших</h2>
             <div class="adv-grid">
-                <article class="adv-card reveal">
-                    <h3>Чистая композиция</h3>
-                    <p>Только необходимые блоки и единая визуальная логика по всей странице.</p>
-                </article>
-                <article class="adv-card reveal">
-                    <h3>Понятная иерархия</h3>
-                    <p>Крупные заголовки, вторичный текст спокойного тона, явные CTA‑кнопки.</p>
-                </article>
-                <article class="adv-card reveal">
-                    <h3>Удобная корзина</h3>
-                    <p>Боковая панель, мгновенное обновление суммы и управление заказом без перезагрузки.</p>
-                </article>
+                <div class="adv-item reveal">
+                    <h4>In-House Lab</h4>
+                    <p>Полный цикл производства от разработки молекулы до упаковки в одном месте.</p>
+                </div>
+                <div class="adv-item reveal">
+                    <h4>Clean Luxury</h4>
+                    <p>Исключаем сульфаты и парабены, оставляя место только для работающих активов.</p>
+                </div>
+                <div class="adv-item reveal">
+                    <h4>Bio-Science</h4>
+                    <p>Использование интеллектуальных пептидов для таргетного восстановления волос.</p>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="faq" class="section container">
-            <h2 class="section-heading reveal">Частые вопросы</h2>
-            <div class="faq-wrap reveal">
-                <details class="faq-item">
-                    <summary>Как часто использовать маску Intense?</summary>
-                    <p>Обычно 1–2 раза в неделю. Для сильно повреждённых волос можно использовать чаще в течение первого месяца.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Подходит ли линейка для чувствительной кожи головы?</summary>
-                    <p>Да, формулы мягкие и сбалансированные. Рекомендуем начать с линии Hydration и наблюдать реакцию.</p>
-                </details>
-                <details class="faq-item">
-                    <summary>Где производится продукция ZN?</summary>
-                    <p>В собственной лаборатории и на производстве в России с контролем качества на каждом этапе.</p>
-                </details>
-            </div>
-        </section>
+    <section id="faq" class="section-padding container">
+        <h2 style="text-align:center; margin-bottom: 60px;" class="reveal">Часто задаваемые вопросы</h2>
+        <div style="max-width: 800px; margin: 0 auto;" class="reveal">
+            <details class="faq-item">
+                <summary>Как часто можно использовать маску Intense?</summary>
+                <p style="padding-top: 20px; opacity: 0.7;">Мы рекомендуем использовать маску 1-2 раза в неделю в зависимости от степени повреждения волос.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Подходят ли продукты для чувствительной кожи головы?</summary>
+                <p style="padding-top: 20px; opacity: 0.7;">Да, наши формулы гипоаллергенны и прошли дерматологический контроль.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Где производится продукция ZN?</summary>
+                <p style="padding-top: 20px; opacity: 0.7;">Вся линейка производится на нашем высокотехнологичном заводе в Подмосковье под строгим контролем качества.</p>
+            </details>
+        </div>
+    </section>
 
-        <section id="contact" class="section container">
-            <div class="contact-card reveal">
-                <h2>Нужна персональная консультация?</h2>
-                <p>Оставьте контакты — эксперт поможет собрать минимальный и эффективный уход.</p>
+    <section id="contact" style="padding-bottom: 150px;">
+        <div style="height: 400px; background: var(--champagne);"></div>
+        <div class="container">
+            <div class="contact-form-box reveal">
+                <h2 style="text-align: center; margin-bottom: 40px;">Консультация эксперта</h2>
                 <form id="orderForm">
                     <div class="input-group">
-                        <label for="name">Ваше имя</label>
-                        <input id="name" type="text" required>
+                        <label>Ваше имя</label>
+                        <input type="text" required>
                     </div>
                     <div class="input-group">
-                        <label for="contactValue">Телефон / Telegram</label>
-                        <input id="contactValue" type="tel" required>
+                        <label>Телефон / Telegram</label>
+                        <input type="tel" required>
                     </div>
                     <div class="input-group">
-                        <label for="hairType">Коротко о ваших волосах</label>
-                        <textarea id="hairType" rows="3" placeholder="Например: сухие по длине, жирные у корней"></textarea>
+                        <label>Опишите ваш тип волос</label>
+                        <textarea rows="3"></textarea>
                     </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Отправить запрос</button>
-                    </div>
+                    <button type="submit" class="btn btn-gold" style="width: 100%;">Отправить запрос</button>
                 </form>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
 
     <footer>
-        <div class="container footer-content">
-            <p><strong>ZN</strong> · минималистичный haircare store</p>
-            <p>8 (800) 700-12-34 · concierge@zn.beauty</p>
-            <p>© 2026 ZN</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="logo footer-logo"><img src="Altın ZN logosu ve ışıklı iz.png" alt="ZN"></div>
+                    <p>Искусство ухода, которое вы заслуживаете.</p>
+                </div>
+                <div>
+                    <h5>Навигация</h5>
+                    <p><a href="#about">О нас</a></p>
+                    <p><a href="#catalog">Каталог</a></p>
+                    <p><a href="#faq">Помощь</a></p>
+                </div>
+                <div>
+                    <h5>Контакты</h5>
+                    <p>8 (800) 700-12-34</p>
+                    <p>concierge@zn.beauty</p>
+                    <p>Пн-Вс: 09:00 — 21:00</p>
+                </div>
+                <div>
+                    <h5>Социальные сети</h5>
+                    <p><a href="#">Instagram</a></p>
+                    <p><a href="#">Telegram</a></p>
+                    <p><a href="#">Pinterest</a></p>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.05);">
+                &copy; 2026 ZN BEAUTY LAB. LUXURY HAIRCARE PRODUCTION.
+            </div>
         </div>
     </footer>
 
     <script>
+        // Intersection Observer для анимации появления
+        const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
+            entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.12 });
+        }, observerOptions);
 
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        const cart = [];
-        const formatter = new Intl.NumberFormat('ru-RU');
+        // Логика корзины
+        let cart = [];
         const cartDrawer = document.getElementById('cartDrawer');
         const overlay = document.getElementById('overlay');
         const cartCount = document.getElementById('cartCount');
@@ -882,82 +406,67 @@
         const totalSum = document.getElementById('totalSum');
         const toast = document.getElementById('toast');
 
-        function showToast(message) {
-            toast.textContent = message;
-            toast.classList.add('show');
-            clearTimeout(showToast.timer);
-            showToast.timer = setTimeout(() => toast.classList.remove('show'), 2200);
-        }
-
-        function setCartOpen(isOpen) {
-            cartDrawer.classList.toggle('active', isOpen);
-            overlay.classList.toggle('active', isOpen);
-            document.body.style.overflow = isOpen ? 'hidden' : '';
-        }
-
-        function updateCart() {
-            cartCount.textContent = cart.length;
-
-            if (!cart.length) {
-                cartItems.innerHTML = '<p class="empty-cart">Здесь пока пусто</p>';
-                totalSum.textContent = '0 ₽';
-                return;
-            }
-
-            cartItems.innerHTML = cart.map((item, idx) => `
-                <div class="cart-item">
-                    <span class="cart-item-name">${item.name}</span>
-                    <div class="cart-item-actions">
-                        <span>${formatter.format(item.price)} ₽</span>
-                        <button class="remove-item" onclick="removeFromCart(${idx})" aria-label="Удалить товар">×</button>
-                    </div>
-                </div>
-            `).join('');
-
-            const sum = cart.reduce((acc, item) => acc + item.price, 0);
-            totalSum.textContent = `${formatter.format(sum)} ₽`;
-        }
-
-        window.removeFromCart = function (idx) {
-            cart.splice(idx, 1);
-            updateCart();
-            showToast('Товар удалён из корзины');
+        document.getElementById('openCart').onclick = () => {
+            cartDrawer.classList.add('active');
+            overlay.classList.add('active');
         };
 
-        document.getElementById('openCart').addEventListener('click', () => setCartOpen(true));
-        document.getElementById('closeCart').addEventListener('click', () => setCartOpen(false));
-        overlay.addEventListener('click', () => setCartOpen(false));
+        document.getElementById('closeCart').onclick = () => {
+            cartDrawer.classList.remove('active');
+            overlay.classList.remove('active');
+        };
 
-        document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape') {
-                setCartOpen(false);
-            }
-        });
+        overlay.onclick = () => {
+            cartDrawer.classList.remove('active');
+            overlay.classList.remove('active');
+        };
 
-        document.querySelectorAll('.btn-buy').forEach((btn) => {
-            btn.addEventListener('click', () => {
-                cart.push({
-                    name: btn.dataset.name,
-                    price: Number(btn.dataset.price)
-                });
+        document.querySelectorAll('.btn-buy').forEach(btn => {
+            btn.onclick = () => {
+                const name = btn.dataset.name;
+                const price = parseInt(btn.dataset.price);
+                const productCard = btn.closest('.product-card');
+                const productImage = productCard?.querySelector('img');
+                const image = productImage?.src || '';
+                const imageAlt = productImage?.alt || name;
+
+                cart.push({name, price, image, imageAlt});
                 updateCart();
-                showToast('Товар добавлен в корзину');
-            });
+                
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 3000);
+            };
         });
 
-        document.getElementById('checkoutBtn').addEventListener('click', () => {
-            if (!cart.length) {
-                showToast('Добавьте товары в корзину');
+        function updateCart() {
+            cartCount.innerText = cart.length;
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; opacity: 0.5; margin-top: 100px;">Здесь пока пусто</p>';
+                totalSum.innerText = '0 ₽';
                 return;
             }
-            showToast('Оформление будет доступно на следующем шаге');
-        });
+            cartItems.innerHTML = cart.map((item, idx) => `
+                <div class="cart-item">
+                    <div class="cart-item-left">
+                        <img src="${item.image}" alt="${item.imageAlt}">
+                        <span class="cart-item-name">${item.name}</span>
+                    </div>
+                    <span class="cart-item-right">${item.price} ₽ <button class="cart-item-remove" onclick="removeFromCart(${idx})">&times;</button></span>
+                </div>
+            `).join('');
+            totalSum.innerText = cart.reduce((sum, item) => sum + item.price, 0) + ' ₽';
+        }
 
-        document.getElementById('orderForm').addEventListener('submit', (event) => {
-            event.preventDefault();
-            event.target.reset();
-            showToast('Спасибо! Мы свяжемся с вами в ближайшее время');
-        });
+        window.removeFromCart = (idx) => {
+            cart.splice(idx, 1);
+            updateCart();
+        };
+
+        document.getElementById('orderForm').onsubmit = (e) => {
+            e.preventDefault();
+            alert('Ваша заявка принята. Эксперт ZN свяжется с вами в ближайшее время.');
+            e.target.reset();
+        };
     </script>
 </body>
 </html>
