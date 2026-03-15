@@ -58,7 +58,7 @@
             height: 100vh; display: flex; align-items: center; justify-content: center;
             text-align: center; color: var(--graphite);
             background: linear-gradient(rgba(253, 251, 247, 0.45), rgba(253, 251, 247, 0.45)), 
-                        url('https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&q=80&w=2000') center/cover;
+                        url('fon.png') center/cover;
         }
         .hero-content h1 { font-size: clamp(45px, 10vw, 85px); line-height: 1.1; margin-bottom: 25px; }
         .hero-content p { font-size: 14px; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 40px; opacity: 0.8; }
@@ -180,9 +180,13 @@
             .cart-drawer { width: 100%; }
         }
         @media (max-width: 768px) {
+            .container { padding: 0 16px; }
             .catalog-grid, .adv-grid, .footer-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
             .contact-form-box { padding: 40px 20px; }
+            .product-card { padding: 28px 16px; }
+            .product-card img { height: auto; aspect-ratio: 2 / 3; }
+            .btn { width: 100%; padding: 16px 20px; }
         }
     </style>
 </head>
@@ -249,7 +253,7 @@
         <div class="catalog-grid">
             <div class="product-card reveal">
                 <span class="product-tag">Увлажнение</span>
-                <img src="1.png" alt="Шампунь Hydration">
+                <img src="1.png?v=2" alt="Шампунь Hydration">
                 <h3>Шампунь Hydration</h3>
                 <p class="product-meta">Объем: 250 мл | Интенсивный блеск</p>
                 <div class="product-price">2 400 ₽</div>
@@ -257,7 +261,7 @@
             </div>
             <div class="product-card reveal">
                 <span class="product-tag">SOS-Уход</span>
-                <img src="2.png" alt="Маска Intense">
+                <img src="2.png?v=2" alt="Маска Intense">
                 <h3>Маска Intense</h3>
                 <p class="product-meta">Объем: 200 мл | Глубокое питание</p>
                 <div class="product-price">3 100 ₽</div>
@@ -265,7 +269,7 @@
             </div>
             <div class="product-card reveal">
                 <span class="product-tag">Уход</span>
-                <img src="3.png" alt="Бальзам Hydration">
+                <img src="3.png?v=2" alt="Бальзам Hydration">
                 <h3>Бальзам Hydration</h3>
                 <p class="product-meta">Объем: 200 мл | Легкое расчесывание</p>
                 <div class="product-price">2 100 ₽</div>
@@ -273,7 +277,7 @@
             </div>
             <div class="product-card reveal">
                 <span class="product-tag">Набор</span>
-                <img src="4.png" alt="Набор: Маска + Бальзам">
+                <img src="4.png?v=2" alt="Набор: Маска + Бальзам">
                 <h3>Набор: Маска + Бальзам</h3>
                 <p class="product-meta">Комплексный уход | Питание и мягкость</p>
                 <div class="product-price">4 900 ₽</div>
@@ -281,7 +285,7 @@
             </div>
             <div class="product-card reveal">
                 <span class="product-tag">Премиум набор</span>
-                <img src="5.png" alt="Набор: Маска + Шампунь + Бальзам">
+                <img src="5.png?v=2" alt="Набор: Маска + Шампунь + Бальзам">
                 <h3>Набор: Маска + Шампунь + Бальзам</h3>
                 <p class="product-meta">Полный ритуал ухода | 3 продукта</p>
                 <div class="product-price">6 900 ₽</div>
@@ -356,7 +360,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="logo footer-logo"><img src="logo.png" alt="ZN"></div>
+                    <div class="logo footer-logo"><img src="logo.png?v=2" alt="ZN"></div>
                     <p>Искусство ухода, которое вы заслуживаете.</p>
                 </div>
                 <div>
