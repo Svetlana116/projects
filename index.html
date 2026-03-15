@@ -41,6 +41,43 @@
         .nav-links { display: flex; gap: 40px; }
         .nav-links a { font-size: 11px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; transition: 0.3s; }
         .nav-links a:hover { opacity: 1; color: var(--gold); }
+        .menu-toggle {
+            display: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            color: var(--graphite);
+            padding: 4px;
+        }
+        .mobile-menu {
+            position: fixed;
+            top: 83px;
+            left: 0;
+            width: 100%;
+            padding: 16px;
+            background: rgba(253, 251, 247, 0.97);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            z-index: 1100;
+            display: grid;
+            gap: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: 0.25s ease;
+        }
+        .mobile-menu.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+        .mobile-menu a {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--champagne);
+        }
 
         /* Корзина и иконки */
         .nav-actions { display: flex; align-items: center; gap: 25px; }
@@ -183,6 +220,11 @@
             .container { padding: 0 16px; }
             .catalog-grid, .adv-grid, .footer-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
+            nav { padding: 18px 0; }
+            .nav-content { justify-content: flex-end; }
+            .nav-actions { gap: 14px; }
+            .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
+            .mobile-menu { top: 67px; }
             .contact-form-box { padding: 40px 20px; }
             .product-card { padding: 28px 16px; }
             .product-card img { height: auto; aspect-ratio: 2 / 3; }
@@ -222,6 +264,11 @@
                 <a href="#contact">Контакты</a>
             </div>
             <div class="nav-actions">
+                <button class="menu-toggle" id="menuToggle" aria-label="Открыть меню" aria-expanded="false">
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+                    </svg>
+                </button>
                 <div class="cart-icon" id="openCart">
                     <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg>
                     <div class="cart-count" id="cartCount">0</div>
@@ -229,6 +276,14 @@
             </div>
         </div>
     </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about">Философия</a>
+        <a href="#catalog">Коллекция</a>
+        <a href="#advantages">Преимущества</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Контакты</a>
+    </div>
 
     <section class="hero">
         <div class="hero-content reveal">
@@ -409,8 +464,25 @@
         const cartItems = document.getElementById('cartItems');
         const totalSum = document.getElementById('totalSum');
         const toast = document.getElementById('toast');
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        const closeMobileMenu = () => {
+            mobileMenu.classList.remove('active');
+            menuToggle.setAttribute('aria-expanded', 'false');
+        };
+
+        menuToggle.onclick = () => {
+            const isOpen = mobileMenu.classList.toggle('active');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
 
         document.getElementById('openCart').onclick = () => {
+            closeMobileMenu();
             cartDrawer.classList.add('active');
             overlay.classList.add('active');
         };
@@ -421,6 +493,7 @@
         };
 
         overlay.onclick = () => {
+            closeMobileMenu();
             cartDrawer.classList.remove('active');
             overlay.classList.remove('active');
         };
